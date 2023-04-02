@@ -80,6 +80,10 @@ router.post('/verify', async (req, res) => {
   }
 })
 
+router.get('/N8OgqdGsPV.txt', async (req, res) => {
+  res.send('c51932bf6b0f3b924aee7a58cb7f08c5')
+})
+
 app.use('', router)
 app.use('/api', router)
 app.set('trust proxy', 1)

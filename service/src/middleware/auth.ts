@@ -4,8 +4,9 @@ const auth = async (req, res, next) => {
   const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
   if (isNotEmptyString(AUTH_SECRET_KEY)) {
     try {
+      const arr = AUTH_SECRET_KEY.split(",")
       const Authorization = req.header('Authorization')
-      if (!Authorization || Authorization.replace('Bearer ', '').trim() !== AUTH_SECRET_KEY.trim())
+      if (!Authorization || !arr.includes(Authorization.replace('Bearer ', '').trim()))
         throw new Error('Error: 无访问权限 | No access rights')
       next()
     }

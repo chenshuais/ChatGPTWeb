@@ -4,7 +4,7 @@ import type { ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth } from './middleware/auth'
 import { limiter } from './middleware/limiter'
-import { isNotEmptyString } from './utils/is'
+import { getUserPass } from './middleware/supabaseClient'
 
 const app = express()
 const router = express.Router()
@@ -55,9 +55,9 @@ router.post('/config', auth, async (req, res) => {
 
 router.post('/session', async (req, res) => {
   try {
-    const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
-    const hasAuth = isNotEmptyString(AUTH_SECRET_KEY)
-    res.send({ status: 'Success', message: '', data: { auth: hasAuth, model: currentModel() } })
+    // const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
+    // const hasAuth = isNotEmptyString(AUTH_SECRET_KEY)
+    res.send({ status: 'Success', message: '', data: { auth: true, model: currentModel() } })
   }
   catch (error) {
     res.send({ status: 'Fail', message: error.message, data: null })
@@ -69,11 +69,13 @@ router.post('/verify', async (req, res) => {
     const { token } = req.body as { token: string }
     if (!token)
       throw new Error('Secret key is empty')
-    const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
-    const arr = AUTH_SECRET_KEY.split(",")
-    if (!arr.includes(token))
+    const userPass = await getUserPass(token, true)
+    if (!userPass)
       throw new Error('密钥无效 | Secret key is invalid')
-
+    const currentTime = new Date().getTime()
+    const expiryTime = new Date(userPass.expire_at).getTime()
+    if (expiryTime < currentTime)
+      throw new Error('密钥过期 | Secret key is Expired')
     res.send({ status: 'Success', message: 'Verify successfully', data: null })
   }
   catch (error) {

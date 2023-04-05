@@ -1,4 +1,5 @@
 import axios, { type AxiosResponse } from 'axios'
+import { enCrypto } from '../crypto'
 import { useAuthStore } from '@/store'
 
 const service = axios.create({
@@ -8,8 +9,11 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const token = useAuthStore().token
-    if (token)
-      config.headers.Authorization = `Bearer ${token}`
+    if (token) {
+      const currentTime = new Date().getTime()
+      const bearer = `${token} ${currentTime}`
+      config.headers.Authorization = `Bearer ${enCrypto(bearer)}`
+    }
     return config
   },
   (error) => {

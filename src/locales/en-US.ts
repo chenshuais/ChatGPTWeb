@@ -25,7 +25,7 @@ export default {
     success: 'Success',
     failed: 'Failed',
     verify: 'Verify',
-    unauthorizedTips: 'Unauthorized, please verify first.',
+    unauthorizedTips: 'Unauthorized, please verify first. To obtain an authorization code, please follow our official WeChat account: iantool.',
   },
   chat: {
     newChatButton: 'New Chat',

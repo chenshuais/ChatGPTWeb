@@ -25,7 +25,7 @@ export default {
     success: '操作成功',
     failed: '操作失敗',
     verify: '驗證',
-    unauthorizedTips: '未經授權，請先進行驗證。',
+    unauthorizedTips: '未經授權，請先進行驗證。請關注我們的官方微信公眾號：艾安小锦囊 以獲取授權碼。',
   },
   chat: {
     newChatButton: '新建對話',

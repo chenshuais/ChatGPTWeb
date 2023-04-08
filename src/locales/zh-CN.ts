@@ -25,7 +25,7 @@ export default {
     success: '操作成功',
     failed: '操作失败',
     verify: '验证',
-    unauthorizedTips: '未经授权，请先进行验证。',
+    unauthorizedTips: '未经授权，请先进行验证。获取授权码请关注微信公众号：艾安小锦囊',
   },
   chat: {
     newChatButton: '新建聊天',
